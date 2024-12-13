@@ -195,7 +195,7 @@ public class Application {
     private static String countryCode() throws IOException {
         displayCountries(fetchAllCountries());
         System.out.println("Introduce the country code of the country you want to edit: ");
-        String code =  readerBuffer.readLine().trim();
+        String code =  readerBuffer.readLine().trim().toUpperCase();
         return code;
     }
 
