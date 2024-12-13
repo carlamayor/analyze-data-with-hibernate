@@ -177,7 +177,7 @@ public class Application {
     }
 
     //Retrieve a contact depending on the code provided
-    private static Country findContactById(String code) {
+    private static Country fetchCountryByCode(String code) {
         //Open a session
         Session session = sessionFactory.openSession();
 
@@ -195,7 +195,7 @@ public class Application {
     private static String countryCode() throws IOException {
         displayCountries(fetchAllCountries());
         System.out.println("Introduce the country code of the country you want to edit: ");
-        String code =  readerBuffer.readLine().trim().toUpperCase();
+        String code =  readerBuffer.readLine().trim();
         return code;
     }
 
@@ -218,13 +218,13 @@ public class Application {
 
     //Allows user to edit country data
     private static void editCountry() throws IOException {
-        Country country = findContactById(countryCode());
+        String code = countryCode();
+        Country country = fetchCountryByCode(code);
+        System.out.println("code is"+country);
         if (country == null) {
-            System.out.printf("no country fund %s", country);
+            System.out.printf("no country found %s", country);
             return;
         }
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
 
         System.out.println("Current country data: ");
         System.out.printf("%nName: %s %n", country.getName());
@@ -232,7 +232,9 @@ public class Application {
         System.out.printf("%Literacy Rate: %.2f %n", country.getAdultLiteracyRate());
 
         System.out.printf("%n%nUpdating...%n%n");
+        Session session = sessionFactory.openSession();
         Country newCountry = countryUpdatedInfo(country);
+        session.beginTransaction();
         session.merge(newCountry);
         session.getTransaction().commit();
         System.out.println("Country update complete!");
@@ -269,8 +271,9 @@ public class Application {
 
     //Allows user to delete country data
     private static void deleteCountry() throws IOException {
+        String code = countryCode();
+        Country country = fetchCountryByCode(code);
         Session session = sessionFactory.openSession();
-        Country country = findContactById(countryCode());
         session.beginTransaction();
         System.out.printf("%n%Deleting...%n%n");
         session.delete(country);

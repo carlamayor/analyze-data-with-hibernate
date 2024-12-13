@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table (name = "Country")
 public class Country {
     @Id
     private String code;

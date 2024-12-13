@@ -5,11 +5,11 @@
  * Learn more about Gradle by exploring our Samples at https://docs.gradle.org/8.10.2/samples
  */
 plugins {
-    id 'application'
+    id "application"
 }
 
 application {
-    mainClass = 'com.teamtreehouse.countrymgr.Application'
+    mainClass = ("com.teamtreehouse.countrymgr.Application")
 }
 
 group = 'com.teamtreehouse.hibernate'
