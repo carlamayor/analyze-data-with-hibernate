@@ -228,8 +228,8 @@ public class Application {
 
         System.out.println("Current country data: ");
         System.out.printf("%nName: %s %n", country.getName());
-        System.out.printf("%Internet Users: %.2f %n", country.getInternetUsers());
-        System.out.printf("%Literacy Rate: %.2f %n", country.getAdultLiteracyRate());
+        System.out.printf("%nInternet Users: %.2f %n", country.getInternetUsers());
+        System.out.printf("%nLiteracy Rate: %.2f %n", country.getAdultLiteracyRate());
 
         System.out.printf("%n%nUpdating...%n%n");
         Session session = sessionFactory.openSession();
@@ -275,7 +275,7 @@ public class Application {
         Country country = fetchCountryByCode(code);
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        System.out.printf("%n%Deleting...%n%n");
+        System.out.printf("%n%nDeleting...%n%n");
         session.delete(country);
         session.getTransaction().commit();
         System.out.println("Country deleted successfully!");
