@@ -16,31 +16,18 @@ import java.util.*;
 
 public class Application {
 
-    //Hold a reusable reference to a SessionFactory
+    // Only one SessionFactory is created for the entire application
     private static final SessionFactory sessionFactory = buildSessionFactory();
-    //for menu input
     private static final BufferedReader readerBuffer = new BufferedReader(new InputStreamReader(System.in));
-    //Menu options
     private static final Map<String, String> menuOptions = new LinkedHashMap<>();
 
-    //creates menu for the user in the conosole
-    static {
-        menuOptions.put("view", "View Countries data.");
-        menuOptions.put("statistics", "View Internet users and literacy rate's statistics.");
-        menuOptions.put("edit", "Edit country's information.");
-        menuOptions.put("add", "Add a new country.");
-        menuOptions.put("delete", "Delete a country.");
-        menuOptions.put("quit", "Exit the program");
-    }
 
     //Builds Hibernate Session Factory
     private static SessionFactory buildSessionFactory() {
-        //Create a StandardServiceRegistry
         final ServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure()//loads configuration from hibernate.cfg.xml
+                .configure()
                 .build();
         try {
-            //Builds the SessionFactory using MetadataSources
             return new MetadataSources(registry)
                     .buildMetadata()
                     .buildSessionFactory();
@@ -51,10 +38,20 @@ public class Application {
 
     }
 
+
     public static void main(String[] args) {
         run();
     }
 
+    //Creates menu for the user in the console
+    static {
+        menuOptions.put("view", "View Countries data.");
+        menuOptions.put("statistics", "View Internet users and literacy rate's statistics.");
+        menuOptions.put("edit", "Edit country's information.");
+        menuOptions.put("add", "Add a new country.");
+        menuOptions.put("delete", "Delete a country.");
+        menuOptions.put("quit", "Exit the program");
+    }
 
     //Create the display of the options for the Map menu.
     private static String promptAction() throws IOException {
@@ -85,18 +82,18 @@ public class Application {
         criteria.from(Country.class);
 
         // Execute query
-        List<Country> contacts = session.createQuery(criteria).getResultList();
+        List<Country> countries = session.createQuery(criteria).getResultList();
 
         // Close the session
         session.close();
 
-        return contacts;
+        return countries;
     }
 
     //Shows data in a formatted table
     public static void displayCountries(List<Country> countries) {
-        System.out.println();
-        System.out.println("COUNTRIES DATA");
+        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("                                 COUNTRY DATA                                     ");
         System.out.println("---------------------------------------------------------------------------------------");
         System.out.printf("%-5s %30s %25s %20s %n", "Code", "Name", "Internet Users", "Literacy Rate");
         System.out.println("---------------------------------------------------------------------------------------");
